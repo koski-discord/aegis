@@ -1,8 +1,14 @@
+import sys
+from pathlib import Path
+
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import JSONResponse
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from aegis_core.config import get_settings
 from aegis_core.logging import configure_logging

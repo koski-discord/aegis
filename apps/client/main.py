@@ -3,11 +3,15 @@ import asyncio
 import getpass
 import json
 import os
+import sys
 import time
 from contextlib import suppress
 from pathlib import Path
 
 import pyperclip
+
+if __package__ in {None, ""}:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from apps.client.api.client import AegisApiClient, encrypted_payload_from_api
 from apps.client.crypto import (
