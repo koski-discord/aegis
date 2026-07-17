@@ -7,6 +7,8 @@ from typing import Any, Literal
 from pydantic import AnyHttpUrl, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_prefix="AEGIS_", extra="ignore")
@@ -63,9 +65,15 @@ def _normalize_config_keys(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def _load_config_file() -> dict[str, Any]:
-    path = Path(os.environ.get("AEGIS_CONFIG_FILE", "config.json"))
-    if not path.exists():
+    explicit_path = os.environ.get("AEGIS_CONFIG_FILE")
+    candidates = [Path(explicit_path)] if explicit_path else [Path.cwd() / "config.json", PROJECT_ROOT / "config.json"]
+    path = next((candidate for candidate in candidates if candidate.exists()), None)
+    if path is None:
         return {}
+    if not path.exists():
+        raise RuntimeError(f"configuration file does not exist: {path}")
+    if not path.is_file():
+        raise RuntimeError(f"configuration path is not a file: {path}")
     with path.open("r", encoding="utf-8-sig") as handle:
         data = json.load(handle)
     if not isinstance(data, dict):
@@ -73,9 +81,16 @@ def _load_config_file() -> dict[str, Any]:
     return _normalize_config_keys(data)
 
 
+def _env_file() -> Path | None:
+    for candidate in [Path.cwd() / ".env", PROJECT_ROOT / ".env"]:
+        if candidate.exists():
+            return candidate
+    return None
+
+
 @lru_cache
 def get_settings() -> Settings:
     config_data = _load_config_file()
-    settings = Settings(**config_data) if config_data else Settings()
+    settings = Settings(**config_data) if config_data else Settings(_env_file=_env_file())
     settings.require_production_safety()
     return settings
