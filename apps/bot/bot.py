@@ -3,6 +3,7 @@ import structlog
 from discord.ext import commands
 
 from aegis_core.config import Settings
+from apps.bot.services.api import SignedApiClient
 
 log = structlog.get_logger()
 
@@ -23,6 +24,11 @@ class AegisBot(commands.Bot):
         else:
             super().__init__(command_prefix=commands.when_mentioned, intents=intents)
         self.settings = settings
+        self.api = SignedApiClient(
+            str(settings.public_base_url),
+            key_id=settings.bot_signing_key_id,
+            private_key_b64=settings.bot_signing_private_key.get_secret_value(),
+        )
 
     async def setup_hook(self) -> None:
         from apps.bot.cogs.account import AccountCog

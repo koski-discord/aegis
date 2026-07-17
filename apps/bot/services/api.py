@@ -41,6 +41,7 @@ class SignedApiClient:
     async def post_internal(self, path: str, payload: dict[str, Any]) -> dict[str, Any]:
         body = json.dumps(payload, separators=(",", ":")).encode()
         headers = self._headers("POST", path, body)
+        headers["content-type"] = "application/json"
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             response = await client.post(f"{self.base_url}{path}", content=body, headers=headers)
             response.raise_for_status()
