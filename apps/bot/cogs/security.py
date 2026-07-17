@@ -37,7 +37,11 @@ class SecurityCog(commands.GroupCog, name="security"):
         try:
             return cast(dict[str, Any], await self.api.post_internal(path, payload))
         except httpx.HTTPStatusError as exc:
-            detail = exc.response.text
+            try:
+                data = exc.response.json()
+                detail = data.get("detail") or data.get("error") or exc.response.text
+            except ValueError:
+                detail = exc.response.text
             raise RuntimeError(f"Aegis API returned {exc.response.status_code}: {detail}") from exc
         except httpx.HTTPError as exc:
             raise RuntimeError(f"Could not reach the Aegis API: {exc}") from exc

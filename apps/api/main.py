@@ -5,6 +5,7 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from sqlalchemy.exc import SQLAlchemyError
 from starlette.responses import JSONResponse
 
 if __package__ in {None, ""}:
@@ -52,6 +53,20 @@ def create_app() -> FastAPI:
     @app.exception_handler(ValueError)
     async def validation_error(_: Request, __: ValueError) -> JSONResponse:
         return JSONResponse({"error": "invalid request"}, status_code=422)
+
+    @app.exception_handler(SQLAlchemyError)
+    async def database_error(_: Request, __: SQLAlchemyError) -> JSONResponse:
+        return JSONResponse(
+            {"error": "storage unavailable", "detail": "Aegis database is not reachable or not migrated."},
+            status_code=503,
+        )
+
+    @app.exception_handler(OSError)
+    async def network_storage_error(_: Request, __: OSError) -> JSONResponse:
+        return JSONResponse(
+            {"error": "storage unavailable", "detail": "Aegis database is not reachable or not migrated."},
+            status_code=503,
+        )
 
     return app
 
