@@ -18,13 +18,16 @@ dependencies = [
   "pydantic>=2.8",
   "pydantic-settings>=2.4",
   "PyNaCl>=1.5",
+  "pyotp>=2.9",
   "pyperclip>=1.9",
+  "qrcode[pil]>=8.0",
   "python-multipart>=0.0.9",
   "redis>=5.0",
   "SQLAlchemy>=2.0",
   "structlog>=24.4",
   "typer>=0.12",
   "uvicorn[standard]>=0.30",
+  "webauthn>=2.5",
 ]
 
 [project.optional-dependencies]
@@ -65,8 +68,12 @@ warn_unreachable = true
 show_error_codes = true
 
 [[tool.mypy.overrides]]
-module = ["pyperclip"]
+module = ["pyperclip", "qrcode"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["migrations.*"]
+ignore_errors = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

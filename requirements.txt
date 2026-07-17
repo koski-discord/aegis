@@ -36,6 +36,8 @@ attrs==26.1.0
     # via aiohttp
 audioop-lts==0.2.2
     # via discord-py
+cbor2==6.1.3
+    # via webauthn
 certifi==2026.6.17
     # via
     #   httpcore
@@ -51,11 +53,15 @@ colorama==0.4.6 ; sys_platform == 'win32'
     # via
     #   click
     #   pytest
+    #   qrcode
     #   typer
 coverage==7.15.2
     # via pytest-cov
 cryptography==49.0.0
-    # via aegis-vault
+    # via
+    #   aegis-vault
+    #   pyopenssl
+    #   webauthn
 discord-py==2.7.1
     # via aegis-vault
 fastapi==0.139.2
@@ -107,6 +113,8 @@ packaging==26.2
     # via pytest
 pathspec==1.1.1
     # via mypy
+pillow==12.3.0
+    # via qrcode
 pluggy==1.6.0
     # via
     #   pytest
@@ -115,6 +123,12 @@ propcache==0.5.2
     # via
     #   aiohttp
     #   yarl
+pyasn1==0.6.4
+    # via
+    #   pyasn1-modules
+    #   webauthn
+pyasn1-modules==0.4.2
+    # via webauthn
 pycparser==3.0 ; implementation_name != 'PyPy'
     # via cffi
 pydantic==2.13.4
@@ -131,6 +145,10 @@ pygments==2.20.0
     #   pytest
     #   rich
 pynacl==1.6.2
+    # via aegis-vault
+pyopenssl==26.3.0
+    # via webauthn
+pyotp==2.10.0
     # via aegis-vault
 pyperclip==1.11.0
     # via aegis-vault
@@ -151,6 +169,8 @@ python-multipart==0.0.32
     # via aegis-vault
 pyyaml==6.0.3
     # via uvicorn
+qrcode==8.2
+    # via aegis-vault
 redis==8.0.1
     # via aegis-vault
 respx==0.23.1
@@ -191,6 +211,8 @@ uvloop==0.22.1 ; platform_python_implementation != 'PyPy' and sys_platform != 'c
     # via uvicorn
 watchfiles==1.2.0
     # via uvicorn
+webauthn==3.0.0
+    # via aegis-vault
 websockets==16.1
     # via uvicorn
 yarl==1.24.2

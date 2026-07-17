@@ -40,6 +40,14 @@ class Settings(BaseSettings):
     bot_signing_public_keys: dict[str, str] = Field(default_factory=dict)
     bot_signing_private_key: SecretStr = SecretStr("")
     bot_signing_key_id: str = "dev-bot-key"
+    mfa_current_key_id: str = "dev-mfa-key-v1"
+    mfa_encryption_keys: dict[str, SecretStr] = Field(
+        default_factory=lambda: {"dev-mfa-key-v1": SecretStr("MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=")}
+    )
+    mfa_recovery_code_pepper: SecretStr = SecretStr("development-recovery-code-pepper-change-me")
+    webauthn_rp_id: str = "localhost"
+    webauthn_rp_name: str = "Aegis"
+    webauthn_expected_origin: str = "http://localhost:8000"
 
     production_https_only: bool = False
     docs_enabled: bool = True
@@ -51,6 +59,7 @@ class Settings(BaseSettings):
             self.token_hash_key.get_secret_value(),
             self.state_signing_key.get_secret_value(),
             self.csrf_signing_key.get_secret_value(),
+            self.mfa_recovery_code_pepper.get_secret_value(),
         }
         if any("development" in value or "change-me" in value for value in weak):
             raise RuntimeError("production secrets must be set explicitly")

@@ -15,7 +15,7 @@ from aegis_core.logging import configure_logging
 from apps.api.middleware.body_limit import BodySizeLimitMiddleware
 from apps.api.middleware.request_context import RequestContextMiddleware
 from apps.api.middleware.service_auth import ServiceAuthMiddleware
-from apps.api.routes import account, auth, health, security, vault, version
+from apps.api.routes import account, auth, health, mfa, security, vault, verify_ui, version
 
 
 def create_app() -> FastAPI:
@@ -43,8 +43,10 @@ def create_app() -> FastAPI:
     app.include_router(version.router, prefix=prefix)
     app.include_router(auth.router, prefix=prefix)
     app.include_router(vault.router, prefix=prefix)
+    app.include_router(mfa.router, prefix=prefix)
     app.include_router(security.router, prefix=prefix)
     app.include_router(account.router, prefix=prefix)
+    app.include_router(verify_ui.router)
 
     @app.exception_handler(ValueError)
     async def validation_error(_: Request, __: ValueError) -> JSONResponse:

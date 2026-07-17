@@ -14,6 +14,14 @@
   "bot_signing_key_id": "dev-bot-key",
   "bot_signing_private_key": "",
   "bot_signing_public_keys": {},
+  "mfa_current_key_id": "dev-mfa-key-v1",
+  "mfa_encryption_keys": {
+    "dev-mfa-key-v1": "base64-encoded-32-byte-key"
+  },
+  "mfa_recovery_code_pepper": "change-this-long-random-value",
+  "webauthn_rp_id": "localhost",
+  "webauthn_rp_name": "Aegis",
+  "webauthn_expected_origin": "http://localhost:8000",
   "allowed_origins": ["http://localhost:8000"],
   "trusted_hosts": ["localhost", "127.0.0.1", "api"],
   "docs_enabled": true
