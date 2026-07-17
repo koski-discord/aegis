@@ -1,0 +1,1 @@
+"""Local Aegis encryption client."""
