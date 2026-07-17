@@ -131,3 +131,4 @@ The Discord bot must use the FastAPI backend. It must not connect directly to Po
 
 Before handling real credentials, obtain independent review of the cryptographic format, OAuth/session flow, request signing, deployment configuration, logging pipeline, and client memory/clipboard behavior.
 
+# aegis
