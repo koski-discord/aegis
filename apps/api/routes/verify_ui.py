@@ -3,7 +3,20 @@ from fastapi.responses import HTMLResponse
 
 router = APIRouter(tags=["aegis-verify-ui"])
 
-VERIFY_HTML = """<!doctype html>
+def _verify_html(active_section: str = "dashboard") -> str:
+    section_titles = {
+        "authenticator": "Authenticator apps",
+        "passkeys": "Passkeys",
+        "factors": "Security factors",
+        "recovery-codes": "Recovery codes",
+        "devices": "Trusted devices",
+        "activity": "Recent security events",
+        "sessions": "Sessions",
+        "report-login": "Report suspicious login",
+        "dashboard": "Account protection dashboard",
+    }
+    title = section_titles.get(active_section, "Account protection dashboard")
+    return """<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -37,7 +50,7 @@ VERIFY_HTML = """<!doctype html>
     <header>
       <div>
         <h1>Aegis Verify</h1>
-        <p class="status">Account protection dashboard</p>
+        <p class="status">__AEGIS_VERIFY_TITLE__</p>
       </div>
       <button>Refresh</button>
     </header>
@@ -79,13 +92,22 @@ VERIFY_HTML = """<!doctype html>
     </section>
   </main>
 </body>
-</html>"""
+</html>""".replace("__AEGIS_VERIFY_TITLE__", title)
 
 
 @router.get("/verify", response_class=HTMLResponse)
 async def verify_dashboard() -> HTMLResponse:
+    return _verify_response("dashboard")
+
+
+@router.get("/verify/{active_section}", response_class=HTMLResponse)
+async def verify_section(active_section: str) -> HTMLResponse:
+    return _verify_response(active_section)
+
+
+def _verify_response(active_section: str) -> HTMLResponse:
     return HTMLResponse(
-        VERIFY_HTML,
+        _verify_html(active_section),
         headers={
             "Cache-Control": "no-store, private",
             "Pragma": "no-cache",
