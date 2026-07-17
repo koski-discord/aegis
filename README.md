@@ -63,7 +63,11 @@ Services:
 
 ## Environment Variables
 
-Key variables:
+Configuration can be provided with `config.json` in the repository root or with `.env`.
+`config.json` takes precedence and is ignored by Git because it may contain secrets.
+Start from `config.example.json`.
+
+Key settings:
 
 - `AEGIS_ENVIRONMENT`
 - `AEGIS_PUBLIC_BASE_URL`

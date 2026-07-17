@@ -1,0 +1,19 @@
+{
+  "environment": "development",
+  "public_base_url": "http://localhost:8000",
+  "database_url": "postgresql+asyncpg://aegis:aegis@postgres:5432/aegis",
+  "redis_url": "redis://redis:6379/0",
+  "discord_client_id": "",
+  "discord_client_secret": "",
+  "discord_redirect_uri": "http://localhost:8000/api/v1/auth/discord/callback",
+  "discord_bot_token": "",
+  "token_hash_key": "change-this-long-random-value",
+  "state_signing_key": "change-this-long-random-value",
+  "csrf_signing_key": "change-this-long-random-value",
+  "bot_signing_key_id": "dev-bot-key",
+  "bot_signing_private_key": "",
+  "bot_signing_public_keys": {},
+  "allowed_origins": ["http://localhost:8000"],
+  "trusted_hosts": ["localhost", "127.0.0.1", "api"],
+  "docs_enabled": true
+}

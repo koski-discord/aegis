@@ -1,5 +1,8 @@
+import json
+import os
 from functools import lru_cache
-from typing import Literal
+from pathlib import Path
+from typing import Any, Literal
 
 from pydantic import AnyHttpUrl, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -52,8 +55,27 @@ class Settings(BaseSettings):
             raise RuntimeError("production must enable HTTPS-only protections")
 
 
+def _normalize_config_keys(data: dict[str, Any]) -> dict[str, Any]:
+    normalized: dict[str, Any] = {}
+    for key, value in data.items():
+        normalized[key.removeprefix("AEGIS_").lower()] = value
+    return normalized
+
+
+def _load_config_file() -> dict[str, Any]:
+    path = Path(os.environ.get("AEGIS_CONFIG_FILE", "config.json"))
+    if not path.exists():
+        return {}
+    with path.open("r", encoding="utf-8-sig") as handle:
+        data = json.load(handle)
+    if not isinstance(data, dict):
+        raise RuntimeError(f"{path} must contain a JSON object")
+    return _normalize_config_keys(data)
+
+
 @lru_cache
 def get_settings() -> Settings:
-    settings = Settings()
+    config_data = _load_config_file()
+    settings = Settings(**config_data) if config_data else Settings()
     settings.require_production_safety()
     return settings
