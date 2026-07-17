@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     discord_client_secret: SecretStr = SecretStr("")
     discord_redirect_uri: str = "http://localhost:8000/api/v1/auth/discord/callback"
     discord_bot_token: SecretStr = SecretStr("")
+    discord_development_guild_id: int | None = None
 
     session_cookie_name: str = "aegis_session"
     session_ttl_seconds: int = 3600

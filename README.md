@@ -35,6 +35,12 @@ Run the bot:
 uv run aegis-bot
 ```
 
+If slash commands do not appear, invite the bot with both `bot` and
+`applications.commands` scopes. For development, set
+`discord_development_guild_id` in `config.json` to your Discord server ID and
+restart the bot. Guild command sync is immediate; global command sync can take
+time to appear in Discord.
+
 Run the client:
 
 ```bash
@@ -77,6 +83,7 @@ Key settings:
 - `AEGIS_DISCORD_CLIENT_SECRET`
 - `AEGIS_DISCORD_REDIRECT_URI`
 - `AEGIS_DISCORD_BOT_TOKEN`
+- `AEGIS_DISCORD_DEVELOPMENT_GUILD_ID`
 - `AEGIS_TOKEN_HASH_KEY`
 - `AEGIS_STATE_SIGNING_KEY`
 - `AEGIS_CSRF_SIGNING_KEY`

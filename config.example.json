@@ -7,6 +7,7 @@
   "discord_client_secret": "",
   "discord_redirect_uri": "http://localhost:8000/api/v1/auth/discord/callback",
   "discord_bot_token": "",
+  "discord_development_guild_id": null,
   "token_hash_key": "change-this-long-random-value",
   "state_signing_key": "change-this-long-random-value",
   "csrf_signing_key": "change-this-long-random-value",
