@@ -177,7 +177,7 @@ respx==0.23.1
     # via aegis-vault
 rich==15.0.0
     # via typer
-ruff==0.15.22
+ruff==0.16.0
     # via aegis-vault
 shellingham==1.5.4
     # via typer
