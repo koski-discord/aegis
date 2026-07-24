@@ -213,7 +213,7 @@ watchfiles==1.2.0
     # via uvicorn
 webauthn==3.0.0
     # via aegis-vault
-websockets==16.1
+websockets==16.1.1
     # via uvicorn
 yarl==1.24.2
     # via aiohttp
